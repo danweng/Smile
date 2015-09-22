@@ -1,0 +1,57 @@
+﻿@model IEnumerable<iVoting.Models.VotingModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SelectedGender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Exciting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Happy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Upset)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SelectedGender)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Exciting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Happy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Upset)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
