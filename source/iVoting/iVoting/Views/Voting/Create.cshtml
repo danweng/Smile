@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -18,48 +18,23 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                男生 @Html.RadioButton("Gender","男生")  
-                女生 @Html.RadioButton("Gender","女生")  
+            <div class="col-md-4">
+                男生 @Html.RadioButton("Gender", "男生")
+                女生 @Html.RadioButton("Gender", "女生")
                 @Html.ValidationMessageFor(model => model.Gender)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Exciting, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButton("很興奮",0)
-                @Html.ValidationMessageFor(model => model.Exciting)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Happy, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButton("好開心",1)
-                @Html.ValidationMessageFor(model => model.Happy)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Sad, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButton("很難過",2)
-                @Html.ValidationMessageFor(model => model.Sad)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Upset, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButton("好生氣",3)
-                @Html.ValidationMessageFor(model => model.Upset)
+            @Html.Label("我現在感覺", new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.RadioButtonListForEnum(model => model.Emotion);
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="投票" class="btn btn-default" />
             </div>
         </div>
     </div>

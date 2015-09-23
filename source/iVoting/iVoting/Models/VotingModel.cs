@@ -13,9 +13,11 @@ namespace iVoting.Models
         [Key]
         public int ID { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="請選擇性別")]
         [Display(Name = "我是")]
         public string Gender { get; set; }
+
+        public Emotion Emotion;
 
         [Required]
         [Display(Name = "很興奮")]
@@ -36,10 +38,10 @@ namespace iVoting.Models
 
     public enum Emotion
     {
-        Exciting = 0,
-        Happy = 1,
-        Sad = 2,
-        Upset = 3
+        很興奮 = 0,
+        好開心 = 1,
+        很難過 = 2,
+        好生氣 = 3
     }
 
     public class VotingDBContext : DbContext
