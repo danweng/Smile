@@ -46,12 +46,51 @@ namespace iVoting.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,Gender,Exciting,Happy,Sad,Upset")] VotingModel votingmodel)
+        public ActionResult Create([Bind(Include = "ID,Gender,Emotion")] VotingModel votingmodel)
         {
+            votingmodel.Today = DateTime.Today;
             if (ModelState.IsValid)
             {
-                db.Votings.Add(votingmodel);
-                db.SaveChanges();
+                switch (votingmodel.Emotion)
+                {
+                    case Emotion.好生氣:
+                        votingmodel.Upset++;
+                        break;
+                    case Emotion.好開心:
+                        votingmodel.Happy++;
+                        break;
+                    case Emotion.很興奮:
+                        votingmodel.Exciting++;
+                        break;
+                    case Emotion.很難過:
+                        votingmodel.Sad++;
+                        break;
+                }
+
+                var hasMaleRecord = db.Votings.Where(a => a.Gender == Gender.男生 && votingmodel.Today == DateTime.Today).Any();
+                var hasFemaleRecord = db.Votings.Where(a => a.Gender == Gender.女生 && votingmodel.Today == DateTime.Today).Any();
+                if (hasMaleRecord ==false && votingmodel.Gender == Gender.男生)
+                {
+                    db.Votings.Add(votingmodel);
+                    db.SaveChanges();
+                }
+                else if (hasFemaleRecord == false && votingmodel.Gender == Gender.女生)
+                {
+                    db.Votings.Add(votingmodel);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    var record = db.Votings.First(a=>a.Gender == votingmodel.Gender && a.Today == DateTime.Today);
+                    record.Upset = record.Upset + votingmodel.Upset;
+                    record.Happy = record.Happy + votingmodel.Happy;
+                    record.Exciting = record.Exciting + votingmodel.Exciting;
+                    record.Sad = record.Sad + votingmodel.Sad;
+                    db.Votings.Attach(record);
+                    db.Entry(record).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -78,7 +117,7 @@ namespace iVoting.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,Gender,Exciting,Happy,Sad,Upset")] VotingModel votingmodel)
+        public ActionResult Edit([Bind(Include = "ID,Gender,Exciting,Happy,Sad,Upset")] VotingModel votingmodel)
         {
             if (ModelState.IsValid)
             {

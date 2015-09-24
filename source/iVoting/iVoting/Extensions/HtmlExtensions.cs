@@ -122,10 +122,7 @@ namespace System.Web.Mvc.Html
         /// <param name="optionLabel">預設選項文字</param>
         /// <param name="direction">顯示方向:垂直、水平</param>
         /// <returns></returns>
-        public static MvcHtmlString RadioButtonListForEnum<T, TProperty>(this HtmlHelper<T> helper
-   , Expression<Func<T, TProperty>> expression
-, object htmlAttributes = null, bool appendOptionLabel = false, string optionLabel = null
- , RepeatDirections direction = RepeatDirections.Horizontal)
+        public static MvcHtmlString RadioButtonListForEnum<T, TProperty>(this HtmlHelper<T> helper, Expression<Func<T, TProperty>> expression, object htmlAttributes = null, bool appendOptionLabel = false, string optionLabel = null, RepeatDirections direction = RepeatDirections.Horizontal)
         {
             string name = BuildColumnNameFromModel(expression);
             Enum defaultSelectValue = helper.ViewData.Eval(name) as Enum;
@@ -138,13 +135,8 @@ namespace System.Web.Mvc.Html
             return BuildRadioButtonList(helper, expression, name, Convert.ToInt32(defaultSelectValue).ToString(), optionData, htmlAttributes, appendOptionLabel, optionLabel, direction);
         }
 
-
-
-
-        private static MvcHtmlString BuildRadioButtonList<T, TProperty>(HtmlHelper<T> helper, Expression<Func<T, TProperty>> expression, string name, string defaultSelectValue, IEnumerable<KeyValuePair<string, string>> optionData
-, object htmlAttributes, bool appendOptionLabel, string optionLabel, RepeatDirections direction = RepeatDirections.Horizontal)
+        private static MvcHtmlString BuildRadioButtonList<T, TProperty>(HtmlHelper<T> helper, Expression<Func<T, TProperty>> expression, string name, string defaultSelectValue, IEnumerable<KeyValuePair<string, string>> optionData, object htmlAttributes, bool appendOptionLabel, string optionLabel, RepeatDirections direction = RepeatDirections.Horizontal)
         {
-
             StringBuilder renderHtmlTag = new StringBuilder();
             IDictionary<string, string> newOptionData = new Dictionary<string, string>();
             if (appendOptionLabel)
@@ -162,8 +154,8 @@ namespace System.Web.Mvc.Html
                 optionTag.Attributes.Add("name", name);
                 optionTag.Attributes.Add("id", id);
                 optionTag.Attributes.Add("value", option.Value);
-                if (option.Value == defaultSelectValue)
-                    optionTag.Attributes.Add("checked", "checked");
+                //if (option.Value == defaultSelectValue)
+                //    optionTag.Attributes.Add("checked", "checked");
                 RouteValueDictionary attribute = null;
                 if (htmlAttributes != null)
                     attribute = new RouteValueDictionary(htmlAttributes);

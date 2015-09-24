@@ -13,11 +13,13 @@ namespace iVoting.Models
         [Key]
         public int ID { get; set; }
 
-        [Required(ErrorMessage="請選擇性別")]
+        [Required(ErrorMessage = "請選擇性別")]
         [Display(Name = "我是")]
-        public string Gender { get; set; }
+        public Gender Gender { get; set; }
 
-        public Emotion Emotion;
+        [Required(ErrorMessage = "請選擇感覺")]
+        [EnumDataType(typeof(Emotion))]
+        public Emotion Emotion { get; set; }
 
         [Required]
         [Display(Name = "很興奮")]
@@ -34,8 +36,16 @@ namespace iVoting.Models
         [Required]
         [Display(Name = "好生氣")]
         public int Upset { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime Today { get; set; }
     }
 
+    public enum Gender
+    { 
+        男生 = 0,
+        女生 = 1
+    }
     public enum Emotion
     {
         很興奮 = 0,
