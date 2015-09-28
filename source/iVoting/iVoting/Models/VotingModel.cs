@@ -38,8 +38,8 @@ namespace iVoting.Models
         public int Upset { get; set; }
 
 		[Display(Name="日期")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime Today { get; set; }
+		[DisplayFormat(DataFormatString = "{0: yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        public DateTime VotingDate { get; set; }
     }
 
     public enum Gender

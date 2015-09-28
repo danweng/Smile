@@ -58,50 +58,43 @@ namespace iVoting.Controllers
 		// 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "ID,Gender,Emotion")] VotingModel votingmodel)
+		public ActionResult Create([Bind(Include = "ID,Gender,Emotion")] VotingModel votingModel)
 		{
-			votingmodel.Today = DateTime.Today;
+			votingModel.VotingDate = DateTime.Today;
 			if (ModelState.IsValid)
 			{
-				switch (votingmodel.Emotion)
+				switch (votingModel.Emotion)
 				{
 					case Emotion.好生氣:
-						votingmodel.Upset++;
+						votingModel.Upset++;
 						break;
 					case Emotion.好開心:
-						votingmodel.Happy++;
+						votingModel.Happy++;
 						break;
 					case Emotion.很興奮:
-						votingmodel.Exciting++;
+						votingModel.Exciting++;
 						break;
 					case Emotion.很難過:
-						votingmodel.Sad++;
+						votingModel.Sad++;
 						break;
 				}
 
-				var hasMaleRecord = db.Votings.Where(a => a.Gender == Gender.男生 && votingmodel.Today == DateTime.Today).Any();
-				var hasFemaleRecord = db.Votings.Where(a => a.Gender == Gender.女生 && votingmodel.Today == DateTime.Today).Any();
+				bool isFirstVoteToday = this.IsFirstVoteToday(votingModel);
 
-				if (hasMaleRecord == false && votingmodel.Gender == Gender.男生)
+				if (isFirstVoteToday)
 				{
-					db.Votings.Add(votingmodel);
-					db.SaveChanges();
-				}
-				else if (hasFemaleRecord == false && votingmodel.Gender == Gender.女生)
-				{
-					db.Votings.Add(votingmodel);
-					db.SaveChanges();
+					//// 新增今天的第一筆投票
+					this.InsertVoting(votingModel);
 				}
 				else
 				{
-					var record = db.Votings.FirstOrDefault(
-						a => a.Gender == votingmodel.Gender &&
-						a.Today == DateTime.Today);
+					//// 更新當日的票數
+					var record = db.Votings.FirstOrDefault(a => a.Gender == votingModel.Gender && a.VotingDate == DateTime.Today);
 
-					record.Upset = record.Upset + votingmodel.Upset;
-					record.Happy = record.Happy + votingmodel.Happy;
-					record.Exciting = record.Exciting + votingmodel.Exciting;
-					record.Sad = record.Sad + votingmodel.Sad;
+					record.Upset = record.Upset + votingModel.Upset;
+					record.Happy = record.Happy + votingModel.Happy;
+					record.Exciting = record.Exciting + votingModel.Exciting;
+					record.Sad = record.Sad + votingModel.Sad;
 					db.Votings.Attach(record);
 					db.Entry(record).State = EntityState.Modified;
 					db.SaveChanges();
@@ -110,7 +103,30 @@ namespace iVoting.Controllers
 				return RedirectToAction("ThanksForVoting");
 			}
 
-			return View(votingmodel);
+			return View(votingModel);
+		}
+
+		/// <summary>
+		/// 是否是今天第一次投票
+		/// </summary>
+		/// <param name="votingModel">The voting model.</param>
+		/// <returns>True / False</returns>
+		private bool IsFirstVoteToday(VotingModel votingModel)
+		{
+			bool isFirstVoteToday = false;
+			var hasMaleRecord = db.Votings.Where(a => a.Gender == Gender.男生 && votingModel.VotingDate == a.VotingDate).Any();
+			var hasFemaleRecord = db.Votings.Where(a => a.Gender == Gender.女生 && votingModel.VotingDate == a.VotingDate).Any();
+
+			if (hasMaleRecord == false && votingModel.Gender == Gender.男生)
+			{
+				isFirstVoteToday = true;
+			}
+			else if (hasFemaleRecord == false && votingModel.Gender == Gender.女生)
+			{
+				isFirstVoteToday = true;
+			}
+
+			return isFirstVoteToday;
 		}
 
 		// GET: /Voting/Edit/5
@@ -125,6 +141,7 @@ namespace iVoting.Controllers
 			{
 				return HttpNotFound();
 			}
+
 			return View(votingmodel);
 		}
 
@@ -133,7 +150,7 @@ namespace iVoting.Controllers
 		// 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "ID,Gender,Exciting,Happy,Sad,Upset")] VotingModel votingmodel)
+		public ActionResult Edit([Bind(Include = "ID,Gender,Exciting,Happy,Sad,Upset,VotingDate")] VotingModel votingmodel)
 		{
 			if (ModelState.IsValid)
 			{
@@ -177,6 +194,12 @@ namespace iVoting.Controllers
 				db.Dispose();
 			}
 			base.Dispose(disposing);
+		}
+
+		private void InsertVoting(VotingModel votingModel)
+		{
+			db.Votings.Add(votingModel);
+			db.SaveChanges();
 		}
 	}
 }
