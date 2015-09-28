@@ -1,48 +1,44 @@
 ﻿@model iVoting.Models.VotingModel
 
 @{
-    ViewBag.Title = "Create";
+	ViewBag.Title = "我要投票";
 }
 
-<h2>Create</h2>
+<h2>我要投票</h2>
 
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>VotingModel</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButtonListForEnum(model => model.Gender, null, false, null, RepeatDirections.Vertical)
-                @Html.ValidationMessageFor(model => model.Gender)
-            </div>
-        </div>
+	@Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.Label("我現在感覺", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.RadioButtonListForEnum(model => model.Emotion, null, false, null, RepeatDirections.Vertical)
-                @Html.ValidationMessageFor(model => model.Emotion)
-            </div>
-        </div>
+	<div class="form-horizontal">
+		<hr />
+		@Html.ValidationSummary(true)
+		<div class="form-group">
+			@Html.LabelFor(model => model.Gender, new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.RadioButtonListForEnum(model => model.Gender, null, false, null, RepeatDirections.Vertical)
+				@Html.ValidationMessageFor(model => model.Gender)
+			</div>
+		</div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="投票" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+		<div class="form-group">
+			@Html.Label("我現在感覺", new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.RadioButtonListForEnum(model => model.Emotion, null, false, null, RepeatDirections.Vertical)
+				@Html.ValidationMessageFor(model => model.Emotion)
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="投票" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+	@Scripts.Render("~/bundles/jqueryval")
 }

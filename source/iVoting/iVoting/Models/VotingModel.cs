@@ -37,6 +37,7 @@ namespace iVoting.Models
         [Display(Name = "好生氣")]
         public int Upset { get; set; }
 
+		[Display(Name="日期")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime Today { get; set; }
     }
