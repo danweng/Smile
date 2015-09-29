@@ -17,7 +17,7 @@ namespace iVoting.Controllers
 		// GET: /Voting/
 		public ActionResult Index()
 		{
-			return View(db.Votings.ToList());
+			return View(db.Votings.OrderByDescending(a=>a.VotingDate).ToList());
 		}
 
 		// GET: /Voting/ThanksForVotiing
