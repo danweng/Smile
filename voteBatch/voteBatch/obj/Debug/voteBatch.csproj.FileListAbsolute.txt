@@ -1,7 +1,0 @@
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\bin\Debug\voteBatch.exe.config
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\bin\Debug\voteBatch.exe
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\bin\Debug\voteBatch.pdb
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\obj\Debug\voteBatch.Properties.Resources.resources
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\obj\Debug\voteBatch.csproj.GenerateResource.Cache
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\obj\Debug\voteBatch.exe
-C:\Users\Melissa\Desktop\voteBatch\voteBatch\obj\Debug\voteBatch.pdb
