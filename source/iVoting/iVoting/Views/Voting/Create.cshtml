@@ -4,14 +4,20 @@
 	ViewBag.Title = "我要投票";
 }
 
-<h2>我要投票</h2>
-
-
 @using (Html.BeginForm())
 {
 	@Html.AntiForgeryToken()
+	<div id="content">
+		<input type="radio" id="gen1" name="Gender" value="0" />
+		<input type="radio" id="gen2" name="Gender" value="1" />
+		<input type="radio" id="fel1" name="Emotion" value="0" />
+		<input type="radio" id="fel2" name="Emotion" value="1" />
+		<input type="radio" id="fel3" name="Emotion" value="2" />
+		<input type="radio" id="fel4" name="Emotion" value="3" />
+		<button type="submit" id="submit">submit</button>
+	</div>
 
-	<div class="form-horizontal">
+	@*<div class="form-horizontal">
 		<hr />
 		@Html.ValidationSummary(true)
 		<div class="form-group">
@@ -35,7 +41,7 @@
 				<input type="submit" value="投票" class="btn btn-default" />
 			</div>
 		</div>
-	</div>
+	</div>*@
 }
 
 
