@@ -184,6 +184,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommandExecutionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThanksForVotingController.cs" />
     <Compile Include="Controllers\VotingController.cs" />
@@ -226,6 +227,7 @@
     <Content Include="Views\Voting\ThanksForVoting.cshtml" />
     <Content Include="Views\Voting\CommandExecution.cshtml" />
     <Content Include="Views\Voting\CreateWithouHF.cshtml" />
+    <Content Include="Views\CommandExecution\ExecuteConsole.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
