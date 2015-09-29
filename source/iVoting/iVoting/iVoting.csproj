@@ -225,6 +225,7 @@
     <Content Include="Views\Voting\Index.cshtml" />
     <Content Include="Views\Voting\ThanksForVoting.cshtml" />
     <Content Include="Views\Voting\CommandExecution.cshtml" />
+    <Content Include="Views\Voting\CreateWithouHF.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
