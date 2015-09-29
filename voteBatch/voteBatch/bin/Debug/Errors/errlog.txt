@@ -1,0 +1,15 @@
+Title: Send Signal Error
+Message: retry time : 1
+StackTrace: Connection RS484 Error
+Date/Time: 2015/9/29 上午 02:53:33
+============================================
+Title: Send Signal Error
+Message: retry time : 2
+StackTrace: Connection RS484 Error
+Date/Time: 2015/9/29 上午 02:53:34
+============================================
+Title: Send Signal Error
+Message: retry time : 3
+StackTrace: Connection RS484 Error
+Date/Time: 2015/9/29 上午 02:53:34
+============================================
