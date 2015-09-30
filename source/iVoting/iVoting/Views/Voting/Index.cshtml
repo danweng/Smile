@@ -1,7 +1,15 @@
-﻿@model IEnumerable<iVoting.Models.VotingModel>
+﻿@model IPagedList<iVoting.Models.VotingModel>
+
+@using PagedList;
+@using PagedList.Mvc;
 
 @{
 	ViewBag.Title = "票數統計";
+}
+
+@section pagingstyles
+{
+	<link href="~/Content/PagedList.css" rel="stylesheet" />
 }
 
 <h2>票數統計頁面</h2>
@@ -9,22 +17,22 @@
 <table class="table">
 	<tr>
 		<th>
-			@Html.DisplayNameFor(model => model.VotingDate)
+			@Html.DisplayNameFor(model => model.FirstOrDefault().VotingDate)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.Gender)
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Gender)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.Exciting)
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Exciting)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.Happy)
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Happy)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.Sad)
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Sad)
 		</th>
 		<th>
-			@Html.DisplayNameFor(model => model.Upset)
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Upset)
 		</th>
 		<th>
 			功能列表
@@ -60,3 +68,5 @@
 		</tr>
 	}
 </table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
