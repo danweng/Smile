@@ -22,13 +22,17 @@ namespace voteBatch
         {
             InitializeComponent();
             myParameters = args;
+            if (myParameters.Length <= 0) {
+                this.Close();
+                Environment.Exit(Environment.ExitCode);
+            }
             string gender = args[0]; // 0:boy , 1:girl
             string signal = args[1]; // 0~5;
 
-            if (gender != "0" || gender != "1") {
+            if (gender != "0" && gender != "1") {
                 gender = "0";
             }
-            if (signal != "0" || signal != "1" || signal != "2" || signal != "3" || signal != "4") {
+            if (signal != "0" && signal != "1" && signal != "2" && signal != "3" && signal != "4") {
                 signal = "0";
             }
             string g = (gender == "0") ? "男生" : "女生";
@@ -68,13 +72,17 @@ namespace voteBatch
                 }
                 catch (Exception err)
                 {
-                    //need error handle
                     MessageBox.Show(err.Message);
+                    this.Close();
+                    Environment.Exit(Environment.ExitCode);
                 }
             }
 
             // close
             mb.Close();
+
+            this.Close();
+            Environment.Exit(Environment.ExitCode);
         }
 
     }

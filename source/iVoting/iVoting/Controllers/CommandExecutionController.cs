@@ -23,7 +23,7 @@ namespace iVoting.Controllers
 			Process Process;
 			var commandLocation = ConfigurationManager.AppSettings["ConsoleCommand"];
 
-			ProcessInfo = new ProcessStartInfo("cmd.exe", "/K " + commandLocation + " " + argument);
+			ProcessInfo = new ProcessStartInfo("cmd.exe", "/C " + commandLocation + " " + argument);
 			ProcessInfo.CreateNoWindow = false;
 			ProcessInfo.UseShellExecute = true;
 
