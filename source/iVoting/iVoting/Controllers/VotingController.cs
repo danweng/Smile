@@ -105,7 +105,7 @@ namespace iVoting.Controllers
 					db.SaveChanges();
 				}
 
-				return RedirectToAction("ThanksForVoting");
+				return View();
 			}
 
 			return View(votingModel);
