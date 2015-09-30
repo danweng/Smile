@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using iVoting.Models;
+using PagedList;
 
 namespace iVoting.Controllers
 {
@@ -15,9 +16,13 @@ namespace iVoting.Controllers
 		private VotingDBContext db = new VotingDBContext();
 
 		// GET: /Voting/
-		public ActionResult Index()
+		public ActionResult Index(int? page)
 		{
-			return View(db.Votings.OrderByDescending(a=>a.VotingDate).ThenBy(a=>a.Gender).ToList());
+			var votings = db.Votings.OrderByDescending(a => a.VotingDate).ThenBy(a => a.Gender).ToList(); 
+			var pageNumber = page ?? 1;
+			var onePageOfVotings = votings.ToPagedList(pageNumber, 20);
+			
+			return View(onePageOfVotings);
 		}
 
 		// GET: /Voting/ThanksForVotiing
