@@ -10,7 +10,7 @@ namespace iVoting.Models
 {
     public class VotingModel
     {
-        [Key]
+        //[Key]
         public int ID { get; set; }
 
         [Required(ErrorMessage = "請選擇性別")]
@@ -22,22 +22,22 @@ namespace iVoting.Models
         public Emotion Emotion { get; set; }
 
         [Required]
-		[Range(1, int.MaxValue, ErrorMessage = "很興奮欄位需大於零!")]
+		[Range(0, int.MaxValue, ErrorMessage = "很興奮欄位需大於零!")]
         [Display(Name = "很興奮")]
         public int Exciting { get; set; }
 
         [Required]
-		[Range(1, int.MaxValue, ErrorMessage = "好開心欄位需大於零!")]
+		[Range(0, int.MaxValue, ErrorMessage = "好開心欄位需大於零!")]
         [Display(Name = "好開心")]
         public int Happy { get; set; }
 
         [Required]
-		[Range(1, int.MaxValue, ErrorMessage = "好開心欄位需大於零!")]
+		[Range(0, int.MaxValue, ErrorMessage = "很難過欄位需大於零!")]
         [Display(Name = "很難過")]
         public int Sad { get; set; }
 
         [Required]
-		[Range(1, int.MaxValue, ErrorMessage = "好開心欄位需大於零!")]
+		[Range(0, int.MaxValue, ErrorMessage = "好生氣欄位需大於零!")]
         [Display(Name = "好生氣")]
         public int Upset { get; set; }
 
