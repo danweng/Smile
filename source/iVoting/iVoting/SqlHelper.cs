@@ -32,7 +32,7 @@ namespace iVoting
 
 		public static bool HasFemaleRecord()
 		{
-			var sql = string.Format(@"Select * from VotingModels Where Gender=1 and VotingDate = {0}", DateTime.Today.ToShortDateString());
+            var sql = string.Format(@"Select * from VotingModels Where Gender=1 and VotingDate=#{0}#", DateTime.Today.ToString("MM/dd/yyyy"));
 			var dt = GetDataTable(sql);
 
 			return dt.Rows.Count == 1;
