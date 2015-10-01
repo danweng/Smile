@@ -97,7 +97,6 @@ namespace iVoting.Controllers
 				{
 					//// 更新當日的票數
 					var record = SqlHelper.GetFirstVoteToday(votingModel.Gender);
-					record.ID = votingModel.ID;
 					record.Upset = record.Upset + votingModel.Upset;
 					record.Happy = record.Happy + votingModel.Happy;
 					record.Exciting = record.Exciting + votingModel.Exciting;
