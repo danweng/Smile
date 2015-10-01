@@ -27,30 +27,30 @@ namespace voteBatch
                 Environment.Exit(Environment.ExitCode);
             }
             string gender = args[0]; // 0:boy , 1:girl
-            string signal = args[1]; // 0~5;
+            string signal = args[1]; // 1~5;
 
             if (gender != "0" && gender != "1") {
                 gender = "0";
             }
-            if (signal != "0" && signal != "1" && signal != "2" && signal != "3" && signal != "4") {
-                signal = "0";
+            if (signal != "1" && signal != "2" && signal != "3" && signal != "4" && signal != "5") {
+                signal = "1";
             }
             string g = (gender == "0") ? "男生" : "女生";
             string f = "";
             switch (signal) {
-                case "0":
+                case "1":
                     f = "很興奮";
                     break;
-                case "1":
+                case "2":
                     f = "好開心";
                     break;
-                case "2":
+                case "3":
                     f = "很難過";
                     break;
-                case "3":
+                case "4":
                     f = "好生氣";
                     break;
-                case "4":
+                case "5":
                     f = "Normal";
                     break;
             }

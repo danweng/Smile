@@ -39,9 +39,9 @@ namespace voteBatch
 
         private void sendSignal()
         {
-            // signal have 5 type (0, 1, 2, 3, 4)
-            string boySignal = "0";
-            string girlSignal = "0";
+            // signal have 5 type (1, 2, 3, 4, 5)
+            string boySignal = "1";
+            string girlSignal = "1";
 
             // get vote result from db
             using (SqlConnection con = new SqlConnection(db))
@@ -59,22 +59,22 @@ namespace voteBatch
                     {
                         if (reader.GetInt32(3) > 0)
                         {
-                            boySignal = "0";
+                            boySignal = "1";
                             break;
                         }
                         else if (reader.GetInt32(4) > 0)
                         {
-                            boySignal = "1";
+                            boySignal = "2";
                             break;
                         }
                         else if (reader.GetInt32(5) > 0)
                         {
-                            boySignal = "2";
+                            boySignal = "3";
                             break;
                         }
                         else if (reader.GetInt32(6) > 0)
                         {
-                            boySignal = "3";
+                            boySignal = "4";
                             break;
                         }
                     }
@@ -92,22 +92,22 @@ namespace voteBatch
                     {
                         if (reader.GetInt32(3) > 0)
                         {
-                            girlSignal = "0";
+                            girlSignal = "1";
                             break;
                         }
                         else if (reader.GetInt32(4) > 0)
                         {
-                            girlSignal = "1";
+                            girlSignal = "2";
                             break;
                         }
                         else if (reader.GetInt32(5) > 0)
                         {
-                            girlSignal = "2";
+                            girlSignal = "3";
                             break;
                         }
                         else if (reader.GetInt32(6) > 0)
                         {
-                            girlSignal = "3";
+                            girlSignal = "4";
                             break;
                         }
                      }
