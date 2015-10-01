@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
-using System.Data.SqlClient;
+using System.Data.OleDb;
 using System.IO;
 
 namespace voteBatch
@@ -44,76 +44,89 @@ namespace voteBatch
             string girlSignal = "1";
 
             // get vote result from db
-            using (SqlConnection con = new SqlConnection(db))
+            using (OleDbConnection conn = new OleDbConnection(db))
             {
-                con.Open();
+                conn.Open();
 
                 string sql = @"SELECT TOP 5 [ID] ,[Gender], [Emotion] ,[Exciting] ,[Happy] ,[Sad] ,[Upset] ,[VotingDate] 
-                               FROM [dbo].[VotingModels]
-                               WHERE CONVERT(date, VotingDate) <= CONVERT(date, getdate()) AND Gender = 0
+                               FROM [VotingModels]
+                               WHERE VotingDate <=  date() AND Gender = 0
                                ORDER BY VotingDate DESC";
-                using (SqlCommand command = new SqlCommand(sql, con))
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        if (reader.GetInt32(3) > 0)
+                using (OleDbCommand command = new OleDbCommand(sql, conn))
+                    try {
+                        using (OleDbDataReader reader = command.ExecuteReader())
                         {
-                            boySignal = "1";
-                            break;
+                            int maxVal = 0;
+                            while (reader.Read())
+                            {
+                                if (reader.GetInt32(3) >= maxVal)
+                                {
+                                    maxVal = reader.GetInt32(3);
+                                    boySignal = "1";
+                                }
+                                if (reader.GetInt32(4) > maxVal)
+                                {
+                                    maxVal = reader.GetInt32(4);
+                                    boySignal = "2";
+                                }
+                                if (reader.GetInt32(5) > maxVal)
+                                {
+                                    maxVal = reader.GetInt32(5);
+                                    boySignal = "3";
+                                }
+                                if (reader.GetInt32(6) > maxVal)
+                                {
+                                    maxVal = reader.GetInt32(6);
+                                    boySignal = "4";
+                                }
+                            }
                         }
-                        else if (reader.GetInt32(4) > 0)
-                        {
-                            boySignal = "2";
-                            break;
-                        }
-                        else if (reader.GetInt32(5) > 0)
-                        {
-                            boySignal = "3";
-                            break;
-                        }
-                        else if (reader.GetInt32(6) > 0)
-                        {
-                            boySignal = "4";
-                            break;
-                        }
+                    } catch (Exception err) {
+                        // do nothing
                     }
-                }
-
                 //Girl
                 sql = @"SELECT TOP 5 [ID] ,[Gender], [Emotion] ,[Exciting] ,[Happy] ,[Sad] ,[Upset] ,[VotingDate] 
-                        FROM [dbo].[VotingModels]
-                        WHERE CONVERT(date, VotingDate) <= CONVERT(date, getdate()) AND Gender = 1
+                        FROM [VotingModels]
+                        WHERE VotingDate <=  date() AND Gender = 1
                         ORDER BY VotingDate DESC";
-                using (SqlCommand command = new SqlCommand(sql, con))
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
+                using (OleDbCommand command = new OleDbCommand(sql, conn))
+                    try
                     {
-                        if (reader.GetInt32(3) > 0)
+                        using (OleDbDataReader reader = command.ExecuteReader())
                         {
-                            girlSignal = "1";
-                            break;
+                            int maxVal = 0;
+                            while (reader.Read())
+                            {
+                                if (reader.GetInt32(3) >= maxVal)
+                                {
+                                    maxVal = reader.GetInt32(3);
+                                    girlSignal = "1";
+                                }
+                                if (reader.GetInt32(4) > maxVal)
+                                {
+                                    maxVal = reader.GetInt32(4);
+                                    girlSignal = "2";
+                                }
+                                if (reader.GetInt32(5) > maxVal)
+                                {
+                                    maxVal = reader.GetInt32(5);
+                                    girlSignal = "3";
+                                }
+                                if (reader.GetInt32(6) > maxVal)
+                                {
+                                    maxVal = reader.GetInt32(6);
+                                    girlSignal = "4";
+                                }
+                            }
                         }
-                        else if (reader.GetInt32(4) > 0)
-                        {
-                            girlSignal = "2";
-                            break;
-                        }
-                        else if (reader.GetInt32(5) > 0)
-                        {
-                            girlSignal = "3";
-                            break;
-                        }
-                        else if (reader.GetInt32(6) > 0)
-                        {
-                            girlSignal = "4";
-                            break;
-                        }
-                     }
-                }
+                    }
+                    catch (Exception err)
+                    {
+                        // do nothing
+                    }
 
             }
+
             // connection rs485 , open COM port using provided settings:
             if (mb.Open(port, Convert.ToInt32(baudrate), 8, Parity.None, StopBits.One))
             {
