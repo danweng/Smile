@@ -35,26 +35,7 @@ namespace voteBatch
             if (signal != "1" && signal != "2" && signal != "3" && signal != "4" && signal != "5") {
                 signal = "1";
             }
-            string g = (gender == "0") ? "男生" : "女生";
-            string f = "";
-            switch (signal) {
-                case "1":
-                    f = "很興奮";
-                    break;
-                case "2":
-                    f = "好開心";
-                    break;
-                case "3":
-                    f = "很難過";
-                    break;
-                case "4":
-                    f = "好生氣";
-                    break;
-                case "5":
-                    f = "Normal";
-                    break;
-            }
-            MessageBox.Show(g+" : "+ f);
+
             // connection rs485
             //Open COM port using provided settings:
             if (mb.Open(port, Convert.ToInt32(baudrate), 8, Parity.None, StopBits.One))

@@ -28,7 +28,7 @@ namespace voteBatch
             InitializeComponent();
             AppDomain.CurrentDomain.SetData("DataDirectory", dbLocation);
 
-            preOpen();
+            //preOpen();
             sendSignal();
 
             // close
@@ -48,7 +48,7 @@ namespace voteBatch
             {
                 conn.Open();
 
-                string sql = @"SELECT TOP 5 [ID] ,[Gender], [Emotion] ,[Exciting] ,[Happy] ,[Sad] ,[Upset] ,[VotingDate] 
+                string sql = @"SELECT TOP 2 [ID] ,[Gender], [Emotion] ,[Exciting] ,[Happy] ,[Sad] ,[Upset] ,[VotingDate] 
                                FROM [VotingModels]
                                WHERE VotingDate <=  date() AND Gender = 0
                                ORDER BY VotingDate DESC";
@@ -59,6 +59,9 @@ namespace voteBatch
                             int maxVal = 0;
                             while (reader.Read())
                             {
+                                if (reader.GetInt32(3) ==0 && reader.GetInt32(4)==0 && reader.GetInt32(5)==0 && reader.GetInt32(6)==0) {
+                                    break;
+                                }
                                 if (reader.GetInt32(3) >= maxVal)
                                 {
                                     maxVal = reader.GetInt32(3);
@@ -85,7 +88,7 @@ namespace voteBatch
                         // do nothing
                     }
                 //Girl
-                sql = @"SELECT TOP 5 [ID] ,[Gender], [Emotion] ,[Exciting] ,[Happy] ,[Sad] ,[Upset] ,[VotingDate] 
+                sql = @"SELECT TOP 2 [ID] ,[Gender], [Emotion] ,[Exciting] ,[Happy] ,[Sad] ,[Upset] ,[VotingDate] 
                         FROM [VotingModels]
                         WHERE VotingDate <=  date() AND Gender = 1
                         ORDER BY VotingDate DESC";
@@ -97,6 +100,10 @@ namespace voteBatch
                             int maxVal = 0;
                             while (reader.Read())
                             {
+                                if (reader.GetInt32(3) == 0 && reader.GetInt32(4) == 0 && reader.GetInt32(5) == 0 && reader.GetInt32(6) == 0)
+                                {
+                                    break;
+                                }
                                 if (reader.GetInt32(3) >= maxVal)
                                 {
                                     maxVal = reader.GetInt32(3);
@@ -147,11 +154,11 @@ namespace voteBatch
                     // write error log
                     WriteToErrorLog("retry time : " + retry.ToString(), err.Message, "Send Signal Error");
                     // retry 3 times
-                    retry++;
-                    if (retry <= 3)
-                    {
-                        sendSignal();
-                    }
+                    //retry++;
+                    //if (retry <= 3)
+                    //{
+                    //    sendSignal();
+                    //}
                 }
 
                 // send girl 
@@ -170,30 +177,30 @@ namespace voteBatch
                     // write error log
                     WriteToErrorLog("retry time : " + retry.ToString(), err.StackTrace , "Send Signal Error");
                     // retry 3 times
-                    retry++;
-                    if (retry <= 3)
-                    {
-                        sendSignal();
-                    }
+                    //retry++;
+                    //if (retry <= 3)
+                    //{
+                    //    sendSignal();
+                    //}
                 }
             }
             else
             { 
                 // write error log
                 WriteToErrorLog("retry time : " + retry.ToString(), "Connection RS484 Error", "Send Signal Error");
-                retry++;
-                if (retry <= 3)
-                {
-                    sendSignal();
-                }
+                //retry++;
+                //if (retry <= 3)
+                //{
+                //    sendSignal();
+                //}
             }
 
         }
 
-        private void preOpen()
-        {
-            mb.Open(port, Convert.ToInt32(baudrate), 8, Parity.None, StopBits.One);
-        }
+        //private void preOpen()
+        //{
+        //    mb.Open(port, Convert.ToInt32(baudrate), 8, Parity.None, StopBits.One);
+        //}
 
         private void WriteToErrorLog(string msg, string stkTrace, string title)
         {
