@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Data.OleDb;
 using System.Linq;
 using System.Net;
@@ -15,7 +15,7 @@ namespace iVoting.Controllers
 {
 	public class VotingController : Controller
 	{
-		private VotingDBContext db = new VotingDBContext();
+		//private VotingDBContext db = new VotingDBContext();
 
 		// GET: /Voting/
 		public ActionResult Index(int? page)
@@ -187,8 +187,8 @@ namespace iVoting.Controllers
 		public ActionResult DeleteConfirmed(int id)
 		{
 			VotingModel votingmodel = SqlHelper.GetVotingById((int)id);
-			db.Votings.Remove(votingmodel);
-			db.SaveChanges();
+			//db.Votings.Remove(votingmodel);
+			//db.SaveChanges();
 			return RedirectToAction("Index");
 		}
 
@@ -196,7 +196,7 @@ namespace iVoting.Controllers
 		{
 			if (disposing)
 			{
-				db.Dispose();
+				//db.Dispose();
 			}
 			base.Dispose(disposing);
 		}
