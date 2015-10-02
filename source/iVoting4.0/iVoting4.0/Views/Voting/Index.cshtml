@@ -1,0 +1,72 @@
+﻿@model IPagedList<iVoting.Models.VotingModel>
+
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+	ViewBag.Title = "票數統計";
+}
+
+@section pagingstyles
+{
+	<link href="~/Content/PagedList.css" rel="stylesheet" />
+}
+
+<h2>票數統計頁面</h2>
+
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().VotingDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Gender)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Exciting)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Happy)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Sad)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.FirstOrDefault().Upset)
+		</th>
+		<th>
+			功能列表
+		</th>
+	</tr>
+
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.VotingDate)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Gender)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Exciting)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Happy)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Sad)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Upset)
+			</td>
+			<td>
+				@Html.ActionLink("編輯", "Edit", new { id = item.ID })
+				@*@Html.ActionLink("詳細內容", "Details", new { id = item.ID }) |*@
+				@*@Html.ActionLink("Delete", "Delete", new { id = item.ID })*@
+			</td>
+		</tr>
+	}
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
