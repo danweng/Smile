@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-//using System.Data.Entity;
+using System.Data.Entity;
 using System.Data.OleDb;
 using System.Linq;
 using System.Net;
@@ -15,12 +15,12 @@ namespace iVoting.Controllers
 {
 	public class VotingController : Controller
 	{
-		//private VotingDBContext db = new VotingDBContext();
+		private VotingDBContext db = new VotingDBContext();
 
 		// GET: /Voting/
 		public ActionResult Index(int? page)
 		{
-			var votings = SqlHelper.GetVotings().ToList();
+			var votings = db.Votings.OrderByDescending(a => a.VotingDate).ThenBy(a => a.Gender).ToList(); //SqlHelper.GetVotings().ToList();
 			var pageNumber = page ?? 1;
 			var onePageOfVotings = votings.ToPagedList(pageNumber, 20);
 
@@ -46,7 +46,7 @@ namespace iVoting.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			VotingModel votingmodel = SqlHelper.GetVotingById(id.Value);
+			VotingModel votingmodel = db.Votings.Find(id);
 			if (votingmodel == null)
 			{
 				return HttpNotFound();
@@ -96,12 +96,15 @@ namespace iVoting.Controllers
 				else
 				{
 					//// 更新當日的票數
-					var record = SqlHelper.GetFirstVoteToday(votingModel.Gender);
+					var record = db.Votings.FirstOrDefault(a => a.Gender == votingModel.Gender && a.VotingDate == DateTime.Today);
 					record.Upset = record.Upset + votingModel.Upset;
 					record.Happy = record.Happy + votingModel.Happy;
 					record.Exciting = record.Exciting + votingModel.Exciting;
 					record.Sad = record.Sad + votingModel.Sad;
-					SqlHelper.UpdateVotingById(record);
+					db.Votings.Attach(record);
+					db.Entry(record).State = EntityState.Modified;
+					db.SaveChanges();
+					//SqlHelper.UpdateVotingById(record);
 				}
 
 				return View();
@@ -117,8 +120,10 @@ namespace iVoting.Controllers
 		/// <returns>True / False</returns>
 		private bool IsFirstVoteToday(VotingModel votingModel)
 		{
-			var hasMaleRecord = SqlHelper.HasMaleRecord();
-			var hasFemaleRecord = SqlHelper.HasFemaleRecord();
+			var hasMaleRecord = db.Votings.Where(a => a.Gender == Gender.男生 && votingModel.VotingDate == a.VotingDate).Any();
+			var hasFemaleRecord = db.Votings.Where(a => a.Gender == Gender.女生 && votingModel.VotingDate == a.VotingDate).Any();
+			//var hasMaleRecord = SqlHelper.HasMaleRecord();
+			//var hasFemaleRecord = SqlHelper.HasFemaleRecord();
 
 			if (hasMaleRecord == false && votingModel.Gender == Gender.男生)
 			{
@@ -140,7 +145,7 @@ namespace iVoting.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			VotingModel votingmodel = SqlHelper.GetVotingById((int)id);
+			VotingModel votingmodel = db.Votings.Find(id); //SqlHelper.GetVotingById((int)id);
 			if (votingmodel == null)
 			{
 				return HttpNotFound();
@@ -158,9 +163,9 @@ namespace iVoting.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				//db.Entry(votingmodel).State = EntityState.Modified;
-				//db.SaveChanges();
-				SqlHelper.UpdateVotingById(votingmodel);
+				db.Entry(votingmodel).State = EntityState.Modified;
+				db.SaveChanges();
+				//SqlHelper.UpdateVotingById(votingmodel);
 				return RedirectToAction("Index");
 			}
 			return View(votingmodel);
@@ -173,7 +178,7 @@ namespace iVoting.Controllers
 			{
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
-			VotingModel votingmodel = SqlHelper.GetVotingById((int)id);
+			VotingModel votingmodel = db.Votings.Find(id); //SqlHelper.GetVotingById((int)id);
 			if (votingmodel == null)
 			{
 				return HttpNotFound();
@@ -186,9 +191,9 @@ namespace iVoting.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int id)
 		{
-			VotingModel votingmodel = SqlHelper.GetVotingById((int)id);
-			//db.Votings.Remove(votingmodel);
-			//db.SaveChanges();
+			VotingModel votingmodel = db.Votings.Find(id); //SqlHelper.GetVotingById((int)id);
+			db.Votings.Remove(votingmodel);
+			db.SaveChanges();
 			return RedirectToAction("Index");
 		}
 
@@ -196,14 +201,16 @@ namespace iVoting.Controllers
 		{
 			if (disposing)
 			{
-				//db.Dispose();
+				db.Dispose();
 			}
 			base.Dispose(disposing);
 		}
 
 		private void InsertVoting(VotingModel votingModel)
 		{
-			SqlHelper.InsertVoting(votingModel);
+			db.Votings.Add(votingModel);
+			db.SaveChanges();
+			//SqlHelper.InsertVoting(votingModel);
 		}
 	}
 }

@@ -10,7 +10,7 @@ namespace iVoting.Models
 {
     public class VotingModel
     {
-        //[Key]
+		[Key]
         public int ID { get; set; }
 
         [Required(ErrorMessage = "請選擇性別")]
