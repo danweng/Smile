@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
+using System.IO;
 
 namespace voteBatch
 {
@@ -35,21 +36,24 @@ namespace voteBatch
             if (signal != "1" && signal != "2" && signal != "3" && signal != "4" && signal != "5") {
                 signal = "1";
             }
-
+			File.AppendAllText(@"c:\temp\kevintan.txt", "1\r\n");
             // connection rs485
             //Open COM port using provided settings:
             if (mb.Open(port, Convert.ToInt32(baudrate), 8, Parity.None, StopBits.One))
             {
+				File.AppendAllText(@"c:\temp\kevintan.txt", "2\r\n");
                 // start send the signal to rs485
                 // send boy 
                 byte address = Convert.ToByte(slaveId);
                 ushort start = Convert.ToUInt16(gender);
                 short[] value = new short[1];
                 value[0] = Convert.ToInt16(signal);
-
+				
                 try
                 {
+					File.AppendAllText(@"c:\temp\kevintan.txt", "3\r\n");
                     while (!mb.SendFc16(address, start, (ushort)1, value)) ;
+					File.AppendAllText(@"c:\temp\kevintan.txt", "4\r\n");
                 }
                 catch (Exception err)
                 {
