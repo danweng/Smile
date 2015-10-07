@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-//using System.Data.Entity;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +10,7 @@ namespace iVoting.Models
 {
     public class VotingModel
     {
-        //[Key]
+		[Key]
         public int ID { get; set; }
 
         [Required(ErrorMessage = "請選擇性別")]
@@ -59,8 +59,8 @@ namespace iVoting.Models
         好生氣 = 3
     }
 
-	//public class VotingDBContext : DbContext
-	//{
-	//	public DbSet<VotingModel> Votings { get; set; }
-	//}
+	public class VotingDBContext : DbContext
+	{
+		public DbSet<VotingModel> Votings { get; set; }
+	}
 }

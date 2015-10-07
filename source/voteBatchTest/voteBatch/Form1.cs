@@ -53,7 +53,6 @@ namespace voteBatch
                 }
                 catch (Exception err)
                 {
-                    MessageBox.Show(err.Message);
                     this.Close();
                     Environment.Exit(Environment.ExitCode);
                 }
